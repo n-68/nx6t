@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>nx6t</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; color: #fff; background: #000; }
+#bgVideo { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: brightness(0.70); }
+#bgOverlay { position: fixed; inset: 0; z-index: 1; background: rgba(0,0,0,0.15); }
+#intro { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+#intro.ready { cursor: pointer; }
+#intro.hidden { opacity: 0; pointer-events: none; }
+#intro.ready:active { background: radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, #000 65%); }
+.intro-content { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.intro-orb { position: relative; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; }
+.intro-ring { position: absolute; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6); animation: ringPulse 2.4s ease-in-out infinite; }
+.ring-1 { width: 90px; height: 90px; animation-delay: 0s; opacity: 0.5; }
+.ring-2 { width: 64px; height: 64px; animation-delay: 0.4s; opacity: 0.7; }
+.ring-3 { width: 42px; height: 42px; animation-delay: 0.8s; opacity: 0.9; }
+.intro-core { width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3); animation: corePulse 2.4s ease-in-out infinite; }
+@keyframes ringPulse { 0%,100%{transform:scale(1);opacity:0.4} 50%{transform:scale(1.08);opacity:0.9} }
+@keyframes corePulse { 0%,100%{transform:scale(1);box-shadow:0 0 8px rgba(255,255,255,0.9),0 0 20px rgba(255,255,255,0.5)} 50%{transform:scale(1.2);box-shadow:0 0 14px rgba(255,255,255,1),0 0 36px rgba(255,255,255,0.7)} }
+#introHint { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); opacity: 0; transform: translateY(6px); transition: opacity 0.5s ease, transform 0.5s ease; }
+#introHint.visible { opacity: 1; transform: translateY(0); animation: pulse 2s ease-in-out 0.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:0.35} 50%{opacity:0.85} }
+#card { position: relative; z-index: 10; width: 340px; padding: 20px 20px 16px; border-radius: 18px; background: rgba(255,255,255,0.20); border: 1px solid rgba(255,255,255,0.35); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 4px 24px rgba(0,0,0,0.2); opacity: 0; transform: translateY(60px); pointer-events: none; transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+#card.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.avatar { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-info { flex: 1; min-width: 0; }
+.name { font-size: 20px; font-weight: 700; letter-spacing: 0.03em; color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.9),0 0 20px rgba(255,255,255,0.5),0 0 40px rgba(255,255,255,0.25); margin-bottom: 4px; }
+.bio { font-size: 13px; color: rgba(255,255,255,0.65); height: 20px; display: flex; align-items: center; gap: 1px; }
+.cursor { display: inline-block; animation: blink 1s step-end infinite; color: rgba(255,255,255,0.5); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.divider { height: 1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); margin-bottom: 14px; }
+.socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 14px; }
+.icon-btn { display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.88); color: #000; text-decoration: none; transition: transform 0.2s ease, background 0.2s ease; -webkit-tap-highlight-color: transparent; }
+.icon-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.95); }
+.card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.location { color: rgba(255,255,255,0.5); }
+.views { color: #fff; font-weight: 600; font-size: 13px; text-shadow: 0 0 8px rgba(255,255,255,0.9),0 0 18px rgba(255,255,255,0.5); }
+.views-label { color: rgba(255,255,255,0.45); font-size: 11px; font-weight: 400; }
+@media(max-width:380px){#card{width:92vw}}
+</style>
+</head>
+<body>
+<video id="bgVideo" autoplay muted loop playsinline src="bg.mp4"></video>
+<div id="bgOverlay"></div>
+<audio id="bgAudio" loop preload="auto" src="audio.mp3"></audio>
+<div id="intro">
+  <div class="intro-content">
+    <div class="intro-orb">
+      <div class="intro-ring ring-1"></div>
+      <div class="intro-ring ring-2"></div>
+      <div class="intro-ring ring-3"></div>
+      <div class="intro-core"></div>
+    </div>
+    <span id="introHint">click to enter</span>
+  </div>
+</div>
+<div id="card">
+  <div class="card-top">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="white" width="38" height="38">
+        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+      </svg>
+    </div>
+    <div class="card-info">
+      <div class="name">nx6t</div>
+      <div class="bio"><span id="bioText"></span><span class="cursor">|</span></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="socials">
+    <a class="icon-btn" href="https://on.soundcloud.com/iZgSl6XW7oRDyVWLkJ" target="_blank" rel="noopener noreferrer" title="SoundCloud">
+      <svg width="20" height="20" viewBox="0 0 300 300" fill="currentColor"><path d="M0 214l3-44-3-43c0-2 1-3 3-3s3 1 3 3l4 43-4 44c0 2-1 3-3 3s-3-1-3-3zm22-11l-3-33 3-33c0-3 2-5 4-5s4 2 4 5l3 33-3 33c0 3-2 5-4 5s-4-2-4-5zm23-5l-3-28 3-52c0-3 2-6 5-6s5 3 5 6l3 52-3 28c0 3-2 6-5 6s-5-3-5-6zm24-1l-2-27 2-66c0-4 3-7 6-7s6 3 6 7l2 66-2 27c0 4-3 7-6 7s-6-3-6-7zm25 0l-2-27 2-75c0-5 3-8 7-8s7 3 7 8l2 75-2 27c0 5-3 8-7 8s-7-3-7-8zm26 1l-2-28 2-79c0-5 4-9 8-9 5 0 8 4 8 9l2 79-2 28c0 5-4 9-8 9-5 0-8-4-8-9zm26-1l-1-27 1-80c0-6 4-10 9-10 6 0 10 4 10 10l1 80-1 27c0 6-4 10-9 10-6 0-10-4-10-10zm26 0l-1-27 1-80c0-6 5-11 10-11 6 0 10 5 10 11l1 80-1 27c0 6-5 11-10 11-6 0-10-5-10-11zm27 2l-1-29 1-74c0-7 5-12 11-12 7 0 12 5 12 12l1 74-1 29c0 7-5 12-11 12-7 0-12-5-12-12zm117-47c0 33-26 59-59 59H154l-1-147c9-4 20-7 31-7 37 0 67 26 72 61 4-2 8-3 13-3 18 0 33 15 33 37z"/></svg>
+    </a>
+    <a class="icon-btn" href="https://open.spotify.com/artist/1ElPZYAk11CY3tOKzw8aDr" target="_blank" rel="noopener noreferrer" title="Spotify">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    </a>
+  </div>
+  <div class="card-footer">
+    <span class="location">📍 Bahrain</span>
+    <span class="views"><span id="viewsCount">22,380</span><span class="views-label"> views</span></span>
+  </div>
+</div>
+<script>
+var SUBTITLE='Miyano shiho',twIdx=0,twDel=false,bioEl=document.getElementById('bioText');
+function typeLoop(){if(!twDel){if(twIdx<SUBTITLE.length){bioEl.textContent=SUBTITLE.substring(0,++twIdx);setTimeout(typeLoop,100);}else{setTimeout(function(){twDel=true;typeLoop();},1200);}}else{if(twIdx>0){bioEl.textContent=SUBTITLE.substring(0,--twIdx);setTimeout(typeLoop,50);}else{twDel=false;typeLoop();}}}
+typeLoop();
+var intro=document.getElementById('intro'),hint=document.getElementById('introHint'),card=document.getElementById('card'),audio=document.getElementById('bgAudio');
+setTimeout(function(){hint.classList.add('visible');intro.classList.add('ready');},1800);
+intro.addEventListener('click',function(){if(!intro.classList.contains('ready'))return;intro.classList.add('hidden');card.classList.add('visible');audio.volume=0.5;audio.play().catch(function(){});});
+fetch('/api/views').then(function(r){return r.json();}).then(function(d){if(d.count)document.getElementById('viewsCount').textContent=d.count.toLocaleString();}).catch(function(){});
+</script>
+</body>
+</html>
