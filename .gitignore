@@ -1,0 +1,15 @@
+# Replit workspace — never commit these to the nx6t site repo
+node_modules/
+.replit
+.replitignore
+.npmrc
+replit.md
+pnpm-lock.yaml
+pnpm-workspace.yaml
+tsconfig.base.json
+artifacts/
+lib/
+scripts/
+attached_assets/
+.local/
+.agents/
