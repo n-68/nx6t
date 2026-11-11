@@ -54,6 +54,8 @@ body {
   justify-content: center;
   z-index: 9999;
   transition: opacity 1s ease;
+  cursor: pointer;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
@@ -271,7 +273,7 @@ body {
 <audio id="bgAudio" loop preload="none" data-src="/audio.mp3"></audio>
 
 <!-- Intro -->
-<div id="intro">
+<div id="intro" role="button" tabindex="0" aria-label="Tap or click to enter">
   <div class="intro-content">
     <div class="intro-orb">
       <div class="intro-ring ring-1"></div>
@@ -279,7 +281,7 @@ body {
       <div class="intro-ring ring-3"></div>
       <div class="intro-core"></div>
     </div>
-    <span id="introHint">click to enter</span>
+    <span id="introHint">tap or click to enter</span>
   </div>
 </div>
 
@@ -352,8 +354,10 @@ const audio = document.getElementById('bgAudio');
 
 setTimeout(() => { hint.classList.add('visible'); intro.classList.add('ready'); }, 1800);
 
-intro.addEventListener('click', () => {
-  if (!intro.classList.contains('ready')) return;
+let hasEntered = false;
+function enterProfile() {
+  if (hasEntered) return;
+  hasEntered = true;
   intro.classList.add('hidden');
   card.classList.add('visible');
 
@@ -365,6 +369,15 @@ intro.addEventListener('click', () => {
   if (audioSource && !audio.getAttribute('src')) audio.src = audioSource;
   audio.volume = 0.5;
   audio.play().catch(() => {});
+}
+
+intro.addEventListener('pointerup', enterProfile);
+intro.addEventListener('click', enterProfile);
+intro.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    enterProfile();
+  }
 });
 
 // ── View count ──
