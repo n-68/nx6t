@@ -126,14 +126,6 @@ body {
   transform: translateY(0);
   animation: pulse 2s ease-in-out 0.5s infinite;
 }
-.intro-handle {
-  margin-top: -14px;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-shadow: 0 0 12px rgba(255,255,255,0.3);
-}
 @keyframes pulse {
   0%, 100% { opacity: 0.35; }
   50%       { opacity: 0.85; }
@@ -192,16 +184,6 @@ body {
   margin-bottom: 6px;
 }
 
-.handle {
-  margin-top: -4px;
-  margin-bottom: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.11em;
-  line-height: 14px;
-  color: rgba(255,255,255,0.75);
-  text-shadow: 0 0 12px rgba(255,255,255,0.18);
-}
 
 .bio {
   font-size: 13px;
@@ -263,6 +245,15 @@ body {
 
 .location { color: rgba(255,255,255,0.5); }
 
+.footer-handle {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 8px rgba(255,255,255,0.45);
+  white-space: nowrap;
+}
+
 .views {
   color: #fff;
   font-weight: 600;
@@ -292,7 +283,6 @@ body {
       <div class="intro-core"></div>
     </div>
     <span id="introHint">tap or click to enter</span>
-    <span class="intro-handle">@86x</span>
   </div>
 </div>
 
@@ -306,7 +296,6 @@ body {
     </div>
     <div class="card-info">
       <div class="name">nx6t</div>
-      <div class="handle">@86x</div>
       <div class="bio">
         <span id="bioText"></span>
         <span class="cursor">|</span>
@@ -333,6 +322,7 @@ body {
 
   <div class="card-footer">
     <span class="location">📍 Bahrain</span>
+    <span class="footer-handle">@86x</span>
     <span class="views">
       <span id="viewsCount">22,380</span>
       <span class="views-label"> views</span>
