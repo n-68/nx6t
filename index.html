@@ -181,6 +181,16 @@ body {
   margin-bottom: 4px;
 }
 
+.handle {
+  margin-top: -4px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 14px;
+  color: rgba(255,255,255,0.75);
+}
+
 .bio {
   font-size: 13px;
   color: rgba(255,255,255,0.65);
@@ -283,6 +293,7 @@ body {
     </div>
     <div class="card-info">
       <div class="name">nx6t</div>
+      <div class="handle">@86x</div>
       <div class="bio">
         <span id="bioText"></span>
         <span class="cursor">|</span>
@@ -336,6 +347,7 @@ typeLoop();
 const intro = document.getElementById('intro');
 const hint  = document.getElementById('introHint');
 const card  = document.getElementById('card');
+const video = document.getElementById('bgVideo');
 const video = document.getElementById('bgVideo');
 const audio = document.getElementById('bgAudio');
 
