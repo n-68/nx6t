@@ -275,7 +275,7 @@ body {
 </head>
 <body>
 
-<video id="bgVideo" muted loop playsinline preload="none" data-src="/bg-540p30.mp4" poster="/bg-poster.jpg"></video>
+<video id="bgVideo" muted loop playsinline preload="auto" src="/bg-1080p30.mp4" poster="/bg-poster.jpg"></video>
 <div id="bgOverlay"></div>
 <audio id="bgAudio" loop preload="none" data-src="/audio.mp3"></audio>
 
@@ -368,8 +368,6 @@ function enterProfile() {
   intro.classList.add('hidden');
   card.classList.add('visible');
 
-  const videoSource = video.dataset.src;
-  if (videoSource && !video.getAttribute('src')) video.src = videoSource;
   video.play().catch(() => {});
 
   const audioSource = audio.dataset.src;
