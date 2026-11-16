@@ -135,15 +135,20 @@ body {
 #card {
   position: relative;
   z-index: 10;
-  width: 340px;
-  padding: 20px 20px 16px;
-  border-radius: 18px;
+  width: 320px;
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
+  padding: 16px 16px 14px;
+  border-radius: 16px;
   background: rgba(32,32,32,0.58);
   border: 1px solid rgba(255,255,255,0.35);
   box-shadow: 0 4px 24px rgba(0,0,0,0.2);
   opacity: 0;
   transform: translateY(60px);
   pointer-events: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 #card.visible {
@@ -156,13 +161,13 @@ body {
 .card-top {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: rgba(255,255,255,0.18);
   border: 1.5px solid rgba(255,255,255,0.3);
@@ -175,20 +180,20 @@ body {
 .card-info { flex: 1; min-width: 0; }
 
 .name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.12em;
   line-height: 1;
   color: #fff;
   text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.25);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 
 .bio {
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255,255,255,0.65);
-  height: 20px;
+  height: 18px;
   display: flex;
   align-items: center;
   gap: 1px;
@@ -205,23 +210,23 @@ body {
 .divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 /* ── Social icons ── */
 .socials {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(255,255,255,0.88);
   color: #000;
@@ -272,15 +277,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-top: 12px;
-  padding-top: 10px;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid rgba(255,255,255,0.16);
 }
 .clock-details {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
 }
 .clock-label {
@@ -292,13 +297,13 @@ body {
 }
 .clock-date {
   color: rgba(255,255,255,0.8);
-  font-size: 10px;
+  font-size: 9px;
   white-space: nowrap;
 }
 .clock-face {
-  width: 72px;
-  height: 72px;
-  flex: 0 0 72px;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
   overflow: visible;
 }
 .clock-dial {
@@ -333,7 +338,7 @@ body {
 }
 
 @media (max-width: 380px) {
-  #card { width: 92vw; }
+  #card { width: min(320px, 92vw); }
 }
 </style>
 </head>
@@ -360,7 +365,7 @@ body {
 <div id="card">
   <div class="card-top">
     <div class="avatar">
-      <svg viewBox="0 0 24 24" fill="white" width="38" height="38">
+      <svg viewBox="0 0 24 24" fill="white" width="34" height="34">
         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
       </svg>
     </div>
