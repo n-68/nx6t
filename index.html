@@ -344,7 +344,7 @@ body {
 </head>
 <body>
 
-<video id="bgVideo" muted loop playsinline preload="auto" src="/bg-1080p30.mp4" poster="/bg-poster.jpg"></video>
+<video id="bgVideo" muted loop playsinline preload="auto" data-mobile-src="/bg-720p30.mp4" data-desktop-src="/bg-1080p30.mp4" poster="/bg-poster.jpg"></video>
 <div id="bgOverlay"></div>
 <audio id="bgAudio" loop preload="none" data-src="/audio.mp3"></audio>
 
@@ -455,6 +455,13 @@ const hint  = document.getElementById('introHint');
 const card  = document.getElementById('card');
 const video = document.getElementById('bgVideo');
 const audio = document.getElementById('bgAudio');
+const network = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+const lowBandwidth = network && (
+  network.saveData || ['slow-2g', '2g', '3g'].includes(network.effectiveType)
+);
+const useMobileVideo = window.matchMedia('(max-width: 768px)').matches || lowBandwidth;
+video.src = useMobileVideo ? video.dataset.mobileSrc : video.dataset.desktopSrc;
+video.load();
 
 setTimeout(() => { hint.classList.add('visible'); intro.classList.add('ready'); }, 1800);
 
