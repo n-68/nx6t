@@ -268,6 +268,43 @@ body {
 }
 .views-label { color: rgba(255,255,255,0.45); font-size: 11px; font-weight: 400; }
 
+.bahrain-clock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.16);
+}
+.clock-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.clock-label {
+  color: rgba(255,255,255,0.6);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.clock-date {
+  color: rgba(255,255,255,0.8);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.clock-time {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.25);
+  white-space: nowrap;
+}
+
 @media (max-width: 380px) {
   #card { width: 92vw; }
 }
@@ -334,6 +371,14 @@ body {
       <span class="views-label"> views</span>
     </span>
   </div>
+
+  <div class="bahrain-clock" aria-label="Current Bahrain time and date">
+    <div class="clock-details">
+      <span class="clock-label">Bahrain time</span>
+      <span id="bahrainDate" class="clock-date"></span>
+    </div>
+    <span id="bahrainTime" class="clock-time" aria-label="Current time in Bahrain"></span>
+  </div>
 </div>
 
 <script>
@@ -384,6 +429,31 @@ intro.addEventListener('keydown', (event) => {
     enterProfile();
   }
 });
+
+// ── Bahrain clock ──
+const bahrainTimeEl = document.getElementById('bahrainTime');
+const bahrainDateEl = document.getElementById('bahrainDate');
+const bahrainTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Asia/Bahrain',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hourCycle: 'h23'
+});
+const bahrainDateFormatter = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Asia/Bahrain',
+  weekday: 'short',
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric'
+});
+function updateBahrainClock() {
+  const now = new Date();
+  bahrainTimeEl.textContent = bahrainTimeFormatter.format(now);
+  bahrainDateEl.textContent = bahrainDateFormatter.format(now);
+}
+updateBahrainClock();
+setInterval(updateBahrainClock, 1000);
 
 // ── View count ──
 fetch('/api/views')
